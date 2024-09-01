@@ -4,7 +4,7 @@ import { StyleSheet, View, Text } from 'react-native';
 const ScanRecipeScreen = () => {
     return (
         <View style={style.screen}>
-            <Text>Scan Recipe Screen</Text>
+            <Text>Saved Recipes Screen</Text>
         </View>
     );
 }

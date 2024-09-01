@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchRecipes } from "../services/api-services";
@@ -19,6 +20,8 @@ const limitPage = 10;
 
 const RecipeListScreen = () => {
   const navigation = useNavigation();
+  const [search, setSearch] = useState("");
+
   const {
     data,
     fetchNextPage,
@@ -27,11 +30,12 @@ const RecipeListScreen = () => {
     isFetchingNextPage,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["fetchRecipes"],
+    queryKey: ["fetchRecipes", search],
     queryFn: ({ pageParam }) =>
       fetchRecipes({
         limit: limitPage,
         skip: limitPage * (pageParam - 1),
+        q: search
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, AllPages) => {
@@ -52,6 +56,14 @@ const RecipeListScreen = () => {
 
   return (
     <View style={styles.screen}>
+      <View style={styles.searchContainer}>
+        <TextInput
+          value={search}
+          placeholder="Type something..."
+          onChangeText={setSearch}
+          style={styles.searchInput}
+        />
+      </View>
       <FlatList
         data={data?.pages || []}
         keyExtractor={(item) => item.id.toString()}
@@ -171,6 +183,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: "Figtree-Medium",
     color: colors.text,
+  },
+  searchContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    backgroundColor: colors.background,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 3,
+  },
+  searchInput: {
+    backgroundColor: colors.border,
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    fontSize: 16,
+    fontFamily: "Figtree-SemiBold",
   },
 });
 

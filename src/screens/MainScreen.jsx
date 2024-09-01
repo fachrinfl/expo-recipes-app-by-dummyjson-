@@ -40,15 +40,7 @@ const MainScreen = () => {
               color={color}
             />
           ),
-          headerRight: () => (
-            <TouchableOpacity
-              style={styles.searchBtn}
-              activeOpacity={0.8}
-              onPress={() => navigation.navigate("SearchRecipeScreen")}
-            >
-              <Ionicons name="search-sharp" size={20} color={colors.text} />
-            </TouchableOpacity>
-          ),
+          headerShadowVisible: false,
         }}
       />
       <Tab.Screen

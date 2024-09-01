@@ -1,13 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
-import { ActivityIndicator, View, StyleSheet, TouchableOpacity } from "react-native";
+import { ActivityIndicator, View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import colors from "./src/themes/colors";
 import MainScreen from "./src/screens/MainScreen";
 import RecipeDetailScreen from "./src/screens/RecipeDetailScreen";
-import SearchRecipeScreen from "./src/screens/SearchRecipeScreen";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -89,22 +88,6 @@ export default function App() {
                   onPress={() => navigation.goBack()}
                 >
                   <Ionicons name="bookmark-outline" size={20} color={colors.text} />
-                </TouchableOpacity>
-              ),
-            })}
-          />
-          <Stack.Screen
-            name="SearchRecipeScreen"
-            component={SearchRecipeScreen}
-            options={({ navigation }) => ({
-              headerTitle: 'Search Recipe',
-              headerLeft: () => (
-                <TouchableOpacity
-                  style={styles.headerBtn}
-                  activeOpacity={0.8}
-                  onPress={() => navigation.goBack()}
-                >
-                  <Ionicons name="arrow-back" size={20} color={colors.text} />
                 </TouchableOpacity>
               ),
             })}

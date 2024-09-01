@@ -1,8 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
-import { ActivityIndicator, View, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 import colors from "./src/themes/colors";
 import MainScreen from "./src/screens/MainScreen";
@@ -34,9 +41,7 @@ export default function App() {
 
   if (!loaded || error) {
     return (
-      <View
-        style={styles.loadingContainer}
-      >
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size="small" color={colors.primary} />
       </View>
     );
@@ -44,56 +49,62 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer
-        theme={{
-          dark: false,
-          colors,
-        }}
-      >
-        <Stack.Navigator
-          screenOptions={{
-            headerTitleStyle: {
-              fontFamily: "Figtree-Bold",
-            },
-            headerShadowVisible: true,
+      <RootSiblingParent>
+        <NavigationContainer
+          theme={{
+            dark: false,
+            colors,
           }}
         >
-          <Stack.Screen
-            name="MainScreen"
-            component={MainScreen}
-            options={{
-              headerShown: false,
+          <Stack.Navigator
+            screenOptions={{
+              headerTitleStyle: {
+                fontFamily: "Figtree-Bold",
+              },
+              headerShadowVisible: true,
             }}
-          />
-          <Stack.Screen
-            name="RecipeDetailScreen"
-            component={RecipeDetailScreen}
-            options={({ navigation }) => ({
-              headerTransparent: true,
-              headerTitle: '',
-              headerShadowVisible: false,
-              headerLeft: () => (
-                <TouchableOpacity
-                  style={styles.headerBtn}
-                  activeOpacity={0.8}
-                  onPress={() => navigation.goBack()}
-                >
-                  <Ionicons name="arrow-back" size={20} color={colors.text} />
-                </TouchableOpacity>
-              ),
-              headerRight: () => (
-                <TouchableOpacity
-                  style={styles.headerBtn}
-                  activeOpacity={0.8}
-                  onPress={() => navigation.goBack()}
-                >
-                  <Ionicons name="bookmark-outline" size={20} color={colors.text} />
-                </TouchableOpacity>
-              ),
-            })}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="MainScreen"
+              component={MainScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="RecipeDetailScreen"
+              component={RecipeDetailScreen}
+              options={({ navigation }) => ({
+                headerTransparent: true,
+                headerTitle: "",
+                headerShadowVisible: false,
+                headerLeft: () => (
+                  <TouchableOpacity
+                    style={styles.headerBtn}
+                    activeOpacity={0.8}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Ionicons name="arrow-back" size={20} color={colors.text} />
+                  </TouchableOpacity>
+                ),
+                headerRight: () => (
+                  <TouchableOpacity
+                    style={styles.headerBtn}
+                    activeOpacity={0.8}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Ionicons
+                      name="bookmark-outline"
+                      size={20}
+                      color={colors.text}
+                    />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RootSiblingParent>
     </QueryClientProvider>
   );
 }
@@ -110,8 +121,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   loadingContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1
-  }
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
 });

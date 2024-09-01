@@ -44,9 +44,9 @@ const MainScreen = () => {
             <TouchableOpacity
               style={styles.searchBtn}
               activeOpacity={0.8}
-              onPress={() => navigation.navigate("RecipeDetailScreen")}
+              onPress={() => navigation.navigate("SearchRecipeScreen")}
             >
-              <Ionicons name="search-sharp" size={24} color={colors.text} />
+              <Ionicons name="search-sharp" size={20} color={colors.text} />
             </TouchableOpacity>
           ),
         }}
@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
     top: -25,
   },
   searchBtn: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: 35,
+    width: 35,
+    borderRadius: 35 / 2,
     backgroundColor: colors.background,
     justifyContent: "center",
     alignItems: "center",

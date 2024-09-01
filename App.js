@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "./src/themes/colors";
 import MainScreen from "./src/screens/MainScreen";
 import RecipeDetailScreen from "./src/screens/RecipeDetailScreen";
+import SearchRecipeScreen from "./src/screens/SearchRecipeScreen";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -78,7 +79,7 @@ export default function App() {
                   activeOpacity={0.8}
                   onPress={() => navigation.goBack()}
                 >
-                  <Ionicons name="arrow-back" size={24} color={colors.text} />
+                  <Ionicons name="arrow-back" size={20} color={colors.text} />
                 </TouchableOpacity>
               ),
               headerRight: () => (
@@ -87,7 +88,23 @@ export default function App() {
                   activeOpacity={0.8}
                   onPress={() => navigation.goBack()}
                 >
-                  <Ionicons name="bookmark-outline" size={24} color={colors.text} />
+                  <Ionicons name="bookmark-outline" size={20} color={colors.text} />
+                </TouchableOpacity>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="SearchRecipeScreen"
+            component={SearchRecipeScreen}
+            options={({ navigation }) => ({
+              headerTitle: 'Search Recipe',
+              headerLeft: () => (
+                <TouchableOpacity
+                  style={styles.headerBtn}
+                  activeOpacity={0.8}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Ionicons name="arrow-back" size={20} color={colors.text} />
                 </TouchableOpacity>
               ),
             })}
@@ -100,12 +117,14 @@ export default function App() {
 
 const styles = StyleSheet.create({
   headerBtn: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    backgroundColor: `${colors.background}B3`,
+    height: 35,
+    width: 35,
+    borderRadius: 35 / 2,
+    backgroundColor: colors.background,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    borderColor: colors.border,
+    borderWidth: 1,
   },
   loadingContainer: {
     justifyContent: 'center',

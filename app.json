@@ -15,6 +15,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.rakamin.foodrecipeapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -22,6 +23,29 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Figtree-Black.ttf",
+            "./assets/fonts/Figtree-BlackItalic.ttf",
+            "./assets/fonts/Figtree-Bold.ttf",
+            "./assets/fonts/Figtree-BoldItalic.ttf",
+            "./assets/fonts/Figtree-ExtraBold.ttf",
+            "./assets/fonts/Figtree-ExtraBoldItalic.ttf",
+            "./assets/fonts/Figtree-Italic.ttf",
+            "./assets/fonts/Figtree-Light.ttf",
+            "./assets/fonts/Figtree-LightItalic.ttf",
+            "./assets/fonts/Figtree-Medium.ttf",
+            "./assets/fonts/Figtree-MediumItalic.ttf",
+            "./assets/fonts/Figtree-Regular.ttf",
+            "./assets/fonts/Figtree-SemiBold.ttf",
+            "./assets/fonts/Figtree-SemiBoldItalic.ttf"
+          ]
+        }
+      ]
+    ]
   }
 }

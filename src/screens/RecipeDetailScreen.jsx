@@ -1,5 +1,5 @@
-import { useRoute } from "@react-navigation/native";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   StyleSheet,
   View,
@@ -8,19 +8,61 @@ import {
   ScrollView,
   Image,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRecipeById } from "../services/api-services";
 import colors from "../themes/colors";
 import { Ionicons } from "@expo/vector-icons";
+import {useDispatch} from 'react-redux';
+import {addSaved, fetchSavedById, deleteSaved} from '../redux/savedSlice';
 
 const RecipeDetailScreen = () => {
   const route = useRoute();
+  const navigation = useNavigation();
+  const [isSaved, setIsSaved] = useState(false);
   const { recipeId } = route.params;
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["fetchRecipeById", recipeId],
     queryFn: () => fetchRecipeById(recipeId),
   });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => data ?( 
+        <TouchableOpacity
+          style={styles.headerBtn}
+          activeOpacity={0.8}
+          onPress={() => isSaved ? removeRecipe() : saveRecipe()}
+        >
+          <Ionicons
+            name={isSaved ? "bookmark" : "bookmark-outline"}
+            size={20}
+            color={colors.text}
+          />
+        </TouchableOpacity>
+      ) : null,
+    })
+    
+    if (data) {
+      getSavedById();
+    }
+  }, [navigation, data, isSaved])
+
+  const getSavedById = async () => {
+    const dataSaved = await fetchSavedById(data.id);
+    setIsSaved(dataSaved);
+  }
+
+  const saveRecipe = () => {
+    dispatch(addSaved(data));
+    getSavedById();
+  }
+
+  const removeRecipe = () => {
+    dispatch(deleteSaved(isSaved.docId))
+    getSavedById();
+  }
 
   if (isLoading) {
     return (
@@ -156,6 +198,16 @@ const styles = StyleSheet.create({
     fontFamily: "Figtree-Medium",
     color: colors.text,
     marginBottom: 6,
+  },
+  headerBtn: {
+    height: 35,
+    width: 35,
+    borderRadius: 35 / 2,
+    backgroundColor: colors.background,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: colors.border,
+    borderWidth: 1,
   },
 });
 

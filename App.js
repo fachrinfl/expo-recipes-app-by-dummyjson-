@@ -17,6 +17,9 @@ import RecipeDetailScreen from "./src/screens/RecipeDetailScreen";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import { Provider } from "react-redux";
+import { store } from "./src/redux/store";
+
 const Stack = createNativeStackNavigator();
 
 const queryClient = new QueryClient({});
@@ -49,62 +52,55 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RootSiblingParent>
-        <NavigationContainer
-          theme={{
-            dark: false,
-            colors,
-          }}
-        >
-          <Stack.Navigator
-            screenOptions={{
-              headerTitleStyle: {
-                fontFamily: "Figtree-Bold",
-              },
-              headerShadowVisible: true,
+      <Provider store={store}>
+        <RootSiblingParent>
+          <NavigationContainer
+            theme={{
+              dark: false,
+              colors,
             }}
           >
-            <Stack.Screen
-              name="MainScreen"
-              component={MainScreen}
-              options={{
-                headerShown: false,
+            <Stack.Navigator
+              screenOptions={{
+                headerTitleStyle: {
+                  fontFamily: "Figtree-Bold",
+                },
+                headerShadowVisible: true,
               }}
-            />
-            <Stack.Screen
-              name="RecipeDetailScreen"
-              component={RecipeDetailScreen}
-              options={({ navigation }) => ({
-                headerTransparent: true,
-                headerTitle: "",
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <TouchableOpacity
-                    style={styles.headerBtn}
-                    activeOpacity={0.8}
-                    onPress={() => navigation.goBack()}
-                  >
-                    <Ionicons name="arrow-back" size={20} color={colors.text} />
-                  </TouchableOpacity>
-                ),
-                headerRight: () => (
-                  <TouchableOpacity
-                    style={styles.headerBtn}
-                    activeOpacity={0.8}
-                    onPress={() => navigation.goBack()}
-                  >
-                    <Ionicons
-                      name="bookmark-outline"
-                      size={20}
-                      color={colors.text}
-                    />
-                  </TouchableOpacity>
-                ),
-              })}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </RootSiblingParent>
+            >
+              <Stack.Screen
+                name="MainScreen"
+                component={MainScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="RecipeDetailScreen"
+                component={RecipeDetailScreen}
+                options={({ navigation }) => ({
+                  headerTransparent: true,
+                  headerTitle: "",
+                  headerShadowVisible: false,
+                  headerLeft: () => (
+                    <TouchableOpacity
+                      style={styles.headerBtn}
+                      activeOpacity={0.8}
+                      onPress={() => navigation.goBack()}
+                    >
+                      <Ionicons
+                        name="arrow-back"
+                        size={20}
+                        color={colors.text}
+                      />
+                    </TouchableOpacity>
+                  ),
+                })}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </RootSiblingParent>
+      </Provider>
     </QueryClientProvider>
   );
 }

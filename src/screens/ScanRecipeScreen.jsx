@@ -1,31 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import {
   useCameraPermissions,
   PermissionStatus,
   CameraView,
 } from "expo-camera";
-import { useMutation } from "@tanstack/react-query";
-import { fetchRecipeById } from "../services/api-services";
 import Toast from "react-native-root-toast";
 import colors from "../themes/colors";
 import { useNavigation } from "@react-navigation/native";
+import dataRecipes from "../constants/data.json";
 
 const ScanRecipeScreen = () => {
   const navigation = useNavigation();  
+  const [isLoading, setIsLoading] = useState(false);
   const [status, requestPermission] = useCameraPermissions();
-  const { mutate, status: statusMutate } = useMutation({
-    mutationKey: [fetchRecipeById],
-    mutationFn: (id) => fetchRecipeById(id),
-  });
-
-  const isLoading = statusMutate === "pending";
 
   useEffect(() => {
     if (status !== PermissionStatus.GRANTED) {
       requestPermission();
     }
   }, [status]);
+
+  const searchRecipe = (value) => {
+    console.log(value?.data)
+    setIsLoading(true);
+    const findRecipe = dataRecipes.recipes.find((recipe) => Number(recipe.id) === Number(value?.data));
+    if (findRecipe) {
+      navigation.navigate("RecipeDetailScreen", { recipeId: findRecipe.id });
+    } else {
+      Toast.show("Data not found!", {
+        duration: Toast.durations.SHORT,
+      });
+    }
+    setIsLoading(false);
+  }
 
   return (
     <View style={styles.screen}>
@@ -36,18 +44,7 @@ const ScanRecipeScreen = () => {
       ) : (
         <CameraView
           style={styles.screen}
-          onBarcodeScanned={(value) =>
-            mutate(value?.data, {
-              onSuccess: (data) => {
-                navigation.navigate("RecipeDetailScreen", { recipeId: data.id });
-              },
-              onError: () => {
-                Toast.show("Data not found!", {
-                  duration: Toast.durations.SHORT,
-                });
-              },
-            })
-          }
+          onBarcodeScanned={(value) => searchRecipe(value)}
         />
       )}
     </View>

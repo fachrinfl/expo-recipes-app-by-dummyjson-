@@ -3,52 +3,14 @@ import {
   StyleSheet,
   View,
   FlatList,
-  RefreshControl,
-  ActivityIndicator,
   TextInput,
 } from "react-native";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchRecipes } from "../services/api-services";
 import colors from "../themes/colors";
 import ItemRecipe from "../components/ItemRecipe";
-
-const limitPage = 10;
+import dataRecipes from "../constants/data.json";
 
 const RecipeListScreen = () => {
   const [search, setSearch] = useState("");
-
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isLoading,
-    isFetchingNextPage,
-    refetch,
-  } = useInfiniteQuery({
-    queryKey: ["fetchRecipes", search],
-    queryFn: ({ pageParam }) =>
-      fetchRecipes({
-        limit: limitPage,
-        skip: limitPage * (pageParam - 1),
-        q: search
-      }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, AllPages) => {
-      const totalPage = Math.ceil(lastPage.total / limitPage);
-      const currentPage = AllPages.length;
-      const morePageExist = currentPage < totalPage;
-      if (!morePageExist) {
-        return undefined;
-      }
-
-      return AllPages.length + 1;
-    },
-    select: (data) => ({
-      ...data,
-      pages: data.pages.flatMap((page) => page.recipes),
-    }),
-  });
-
   return (
     <View style={styles.screen}>
       <View style={styles.searchContainer}>
@@ -60,31 +22,13 @@ const RecipeListScreen = () => {
         />
       </View>
       <FlatList
-        data={data?.pages || []}
+        data={dataRecipes.recipes.filter((recipe) => recipe.name.toLowerCase().includes(search.toLowerCase()))}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.list}
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={refetch}
-            colors={[colors.primary]}
-          />
-        }
         renderItem={({ item }) => (
           <ItemRecipe item={item} />
         )}
-        onEndReached={() => hasNextPage && fetchNextPage()}
-        onEndReachedThreshold={0.3}
-        ListFooterComponent={() =>
-          isFetchingNextPage ? (
-            <ActivityIndicator
-              size="small"
-              color={colors.primary}
-              style={styles.footerLoading}
-            />
-          ) : null
-        }
       />
     </View>
   );

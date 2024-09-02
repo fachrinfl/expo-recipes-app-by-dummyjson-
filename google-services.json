@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "224308199361",
+    "project_id": "expo-rn-recipes-app",
+    "storage_bucket": "expo-rn-recipes-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224308199361:android:ece312f064364c01b8b940",
+        "android_client_info": {
+          "package_name": "com.rakamin.recipeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdQJXM3LibpSpHy-oCZ7Y135g8GrEcAHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

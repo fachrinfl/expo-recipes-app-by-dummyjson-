@@ -4,28 +4,22 @@ import {
   StyleSheet,
   View,
   Text,
-  ActivityIndicator,
   ScrollView,
   Image,
-  RefreshControl,
   TouchableOpacity,
 } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { fetchRecipeById } from "../services/api-services";
 import colors from "../themes/colors";
 import { Ionicons } from "@expo/vector-icons";
 import {useDispatch} from 'react-redux';
 import {addSaved, fetchSavedById, deleteSaved} from '../redux/savedSlice';
+import dataRecipes from "../constants/data.json";
 
 const RecipeDetailScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const [isSaved, setIsSaved] = useState(false);
   const { recipeId } = route.params;
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["fetchRecipeById", recipeId],
-    queryFn: () => fetchRecipeById(recipeId),
-  });
+  const data = dataRecipes.recipes.find((recipe) => recipe.id === recipeId);
   const dispatch = useDispatch();
   useEffect(() => {
     navigation.setOptions({
@@ -64,25 +58,11 @@ const RecipeDetailScreen = () => {
     getSavedById();
   }
 
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="small" color={colors} />
-      </View>
-    );
-  }
 
   return (
     <ScrollView
       style={styles.screen}
       showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={isLoading}
-          onRefresh={refetch}
-          colors={[colors.primary]}
-        />
-      }
     >
       <Image
         source={{ uri: data.image }}

@@ -12,14 +12,21 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rakamin.recipeapp",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
-      "package": "com.rakamin.foodrecipeapp",
+      "package": "com.rakamin.recipeapp",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -29,20 +36,9 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/fonts/Figtree-Black.ttf",
-            "./assets/fonts/Figtree-BlackItalic.ttf",
             "./assets/fonts/Figtree-Bold.ttf",
-            "./assets/fonts/Figtree-BoldItalic.ttf",
-            "./assets/fonts/Figtree-ExtraBold.ttf",
-            "./assets/fonts/Figtree-ExtraBoldItalic.ttf",
-            "./assets/fonts/Figtree-Italic.ttf",
-            "./assets/fonts/Figtree-Light.ttf",
-            "./assets/fonts/Figtree-LightItalic.ttf",
             "./assets/fonts/Figtree-Medium.ttf",
-            "./assets/fonts/Figtree-MediumItalic.ttf",
-            "./assets/fonts/Figtree-Regular.ttf",
-            "./assets/fonts/Figtree-SemiBold.ttf",
-            "./assets/fonts/Figtree-SemiBoldItalic.ttf"
+            "./assets/fonts/Figtree-SemiBold.ttf"
           ]
         }
       ],
@@ -52,6 +48,14 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
         }
       ]
     ]

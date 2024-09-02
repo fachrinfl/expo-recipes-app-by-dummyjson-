@@ -6,10 +6,11 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RootSiblingParent } from "react-native-root-siblings";
+import analytics from "@react-native-firebase/analytics";
+
 
 import colors from "./src/themes/colors";
 import MainScreen from "./src/screens/MainScreen";
@@ -19,6 +20,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
+import { useEffect } from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,21 +28,24 @@ const queryClient = new QueryClient({});
 
 export default function App() {
   const [loaded, error] = useFonts({
-    "Figtree-Black": require("./assets/fonts/Figtree-Black.ttf"),
-    "Figtree-BlackItalic": require("./assets/fonts/Figtree-BlackItalic.ttf"),
     "Figtree-Bold": require("./assets/fonts/Figtree-Bold.ttf"),
-    "Figtree-BoldItalic": require("./assets/fonts/Figtree-BoldItalic.ttf"),
-    "Figtree-ExtraBold": require("./assets/fonts/Figtree-ExtraBold.ttf"),
-    "Figtree-ExtraBoldItalic": require("./assets/fonts/Figtree-ExtraBoldItalic.ttf"),
-    "Figtree-Italic": require("./assets/fonts/Figtree-Italic.ttf"),
-    "Figtree-Light": require("./assets/fonts/Figtree-Light.ttf"),
-    "Figtree-LightItalic": require("./assets/fonts/Figtree-LightItalic.ttf"),
     "Figtree-Medium": require("./assets/fonts/Figtree-Medium.ttf"),
-    "Figtree-MediumItalic": require("./assets/fonts/Figtree-MediumItalic.ttf"),
-    "Figtree-Regular": require("./assets/fonts/Figtree-Regular.ttf"),
     "Figtree-SemiBold": require("./assets/fonts/Figtree-SemiBold.ttf"),
-    "Figtree-SemiBoldItalic": require("./assets/fonts/Figtree-SemiBoldItalic.ttf"),
   });
+
+  useEffect(() => {
+    sendAnalyticsEventAsync();
+  }, []);
+
+  async function sendAnalyticsEventAsync() {
+    try {
+      await analytics().logEvent("test_analytics_event", {
+        additionalParam: "test",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   if (!loaded || error) {
     return (

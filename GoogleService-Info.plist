@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAd-5ZqidXQGIr2fpJ56SHjOZQd8oYs2iU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>224308199361</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.rakamin.recipeapp</string>
+	<key>PROJECT_ID</key>
+	<string>expo-rn-recipes-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>expo-rn-recipes-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:224308199361:ios:5f82248eb6a10d8eb8b940</string>
+</dict>
+</plist>

@@ -1,8 +1,11 @@
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import React, {useEffect, useRef} from "react";
+import { StyleSheet, View, Animated, Keyboard } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../themes/colors";
+import {
+  useSafeAreaInsets
+} from 'react-native-safe-area-context';
 
 import RecipeListScreen from "./RecipeListScreen";
 import ScanRecipeScreen from "./ScanRecipeScreen";
@@ -13,7 +16,37 @@ const Tab = createBottomTabNavigator();
 
 const MainScreen = () => {
   const navigation = useNavigation();
+  const translateY = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
+
+  const baseTabBarHeight = 50;
+  const bottomTabBarHeight = baseTabBarHeight + insets.bottom;
+
+  useEffect(() => {
+    const keyboardShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      Animated.timing(translateY, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    const keyboardHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardShowListener.remove();
+      keyboardHideListener.remove();
+    };
+  }, [translateY]);
+
   return (
+    <Animated.View style={{flex: 1}}>
     <Tab.Navigator
       screenOptions={{
         headerTitleStyle: {
@@ -24,6 +57,21 @@ const MainScreen = () => {
         tabBarLabelStyle: {
           fontSize: 14,
           fontFamily: "Figtree-SemiBold",
+        },
+        tabBarStyle: {
+          position: 'absolute',
+              height: bottomTabBarHeight,
+              bottom: 0,
+              left: 0,
+              right: 0,
+          transform: [
+            {
+              translateY: translateY.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, bottomTabBarHeight + 25],
+              }),
+            },
+          ],
         },
       }}
     >
@@ -76,6 +124,7 @@ const MainScreen = () => {
         }}
       />
     </Tab.Navigator>
+    </Animated.View>
   );
 };
 
